@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FUNDAMENTOS DE ENFERMERÍA - Ergonomía, Autocuidado y Bioseguridad (UCCuyo)</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Outfit & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- KaTeX for clinical standards & formulas -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+  <style>
+    body {
+      font-family: 'Outfit', sans-serif;
+      background-color: #f7f9f6;
+      color: #1e293b;
+    }
+    .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    /* Paleta Institucional UCCuyo (Verde Oliva Canónico) */
+    .text-accent { color: #436600; }
+    .bg-accent { background-color: #436600; }
+    .bg-accent-hover:hover { background-color: #324d00; }
+    .bg-accent-light { background-color: #f1f6eb; }
+    .border-accent { border-color: #436600; }
+
+    .text-primary { color: #436600; }
+    .bg-primary { background-color: #436600; }
+    .bg-primary-dark { background-color: #324d00; }
+    .border-primary { border-color: #436600; }
+    
+    .focus-accent:focus {
+      border-color: #436600;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(67, 102, 0, 0.2);
+    }
+    
+    .custom-scroll::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 10px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 10px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+
+    .interactive-card {
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .interactive-card:hover {
+      transform: translateY(-2px);
+      border-color: #436600;
+      box-shadow: 0 10px 25px -5px rgba(67, 102, 0, 0.12);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-accent/20 text-gray-800">
+
+  <!-- ==================== CABECERA INSTITUCIONAL UCCUYO ==================== -->
+  <header class="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-3 sm:py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-lg bg-accent flex items-center justify-center text-white font-bold text-xl shadow-md">
+          ENF
+        </div>
+        <div>
+          <h1 class="text-base sm:text-lg font-bold text-gray-800 tracking-wide uppercase">FUNDAMENTOS DE ENFERMERÍA</h1>
+          <p class="text-xs text-gray-500 font-semibold">Curso de Ingreso a la Licenciatura en Enfermería (Facultad de Cs. Médicas - UCCuyo)</p>
+        </div>
+      </div>
+      
+      <div class="flex items-center gap-2 sm:gap-3">
+        <!-- Botón Vademécum Teórico -->
+        <button onclick="openFormulasModal()" class="flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 text-gray-700 text-xs font-semibold rounded-lg border border-gray-200 hover:bg-gray-200 transition">
+          <i class="fa-solid fa-book-bookmark text-accent"></i>
+          <span class="hidden sm:inline">Vademécum</span>
+        </button>
+        <!-- Botón Guía de Uso -->
+        <button onclick="openTutorial()" class="flex items-center gap-1.5 px-3 py-1.5 bg-accent text-white text-xs font-semibold rounded-lg shadow-sm hover:bg-accent-hover transition">
+          <i class="fa-solid fa-circle-question"></i>
+          <span>Guía de Uso</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== CONTENIDO PRINCIPAL CON NAVEGACIÓN LATERAL ==================== -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 flex flex-col lg:flex-row gap-6">
+    
+    <!-- Menú de Navegación Lateral (4 Módulos) -->
+    <nav class="w-full lg:w-64 flex flex-row lg:flex-col gap-2 bg-white p-3 rounded-2xl shadow-sm border border-gray-200 overflow-x-auto lg:overflow-x-visible whitespace-nowrap lg:whitespace-normal sticky top-20 h-fit" id="navTabs">
+      <button onclick="switchTab('mod1')" data-tab="mod1" class="nav-btn bg-accent text-white flex-1 lg:flex-none text-left py-2.5 px-4 rounded-xl text-xs sm:text-sm font-semibold transition shadow-sm flex items-center gap-2">
+        <i class="fa-solid fa-person-walking"></i> <span>1. Ergonomía & Cuidado</span>
+      </button>
+      <button onclick="switchTab('mod2')" data-tab="mod2" class="nav-btn text-gray-700 hover:bg-gray-100 flex-1 lg:flex-none text-left py-2.5 px-4 rounded-xl text-xs sm:text-sm font-medium transition flex items-center gap-2">
+        <i class="fa-solid fa-hand-dots"></i> <span>2. 5 Momentos OMS</span>
+      </button>
+      <button onclick="switchTab('mod3')" data-tab="mod3" class="nav-btn text-gray-700 hover:bg-gray-100 flex-1 lg:flex-none text-left py-2.5 px-4 rounded-xl text-xs sm:text-sm font-medium transition flex items-center gap-2">
+        <i class="fa-solid fa-hands-bubbles"></i> <span>3. Métodos y Técnicas</span>
+      </button>
+      <button onclick="switchTab('mod4')" data-tab="mod4" class="nav-btn text-gray-700 hover:bg-gray-100 flex-1 lg:flex-none text-left py-2.5 px-4 rounded-xl text-xs sm:text-sm font-medium transition flex items-center gap-2">
+        <i class="fa-solid fa-shield-halved"></i> <span>4. EPP Seguro & Casos</span>
+      </button>
+    </nav>
+
+    <!-- Área de Contenido Dinámico -->
+    <div class="flex-1 space-y-6 min-w-0">
+
+      <!-- ============================================================== -->
+      <!-- MÓDULO 1: ERGONOMÍA, MECÁNICA CORPORAL Y AUTOCUIDADO           -->
+      <!-- ============================================================== -->
+      <section id="mod1" class="module-section space-y-6">
+        
+        <!-- Module Intro Banner -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 border-l-4 border-l-accent">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+              <div class="flex items-center space-x-2 text-accent text-xs font-semibold tracking-wider uppercase mb-1">
+                <i class="fa-solid fa-person-walking"></i>
+                <span>Módulo 1 • Ergonomía, Biomecánica y Autocuidado</span>
+              </div>
+              <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-800">La Seguridad de Quien Cuida y de Quien Recibe el Cuidado</h2>
+              <p class="text-sm text-slate-600 mt-1 max-w-3xl leading-relaxed">
+                La protección del profesional de enfermería y la seguridad del paciente ocurren en simultáneo. El autocuidado real no es un mero esfuerzo individual: exige condiciones institucionales seguras, disponibilidad de dispositivos mecánicos y la desmitificación definitiva de que la "buena postura" por sí sola evite lesiones osteoarticulares severas.
+              </p>
+            </div>
+            <div class="bg-accent-light border border-accent/30 p-3.5 rounded-xl flex items-center space-x-3 self-start md:self-auto shrink-0">
+              <i class="fa-solid fa-hands-holding-child text-accent text-2xl"></i>
+              <div>
+                <p class="text-[11px] text-accent uppercase font-bold">Axioma Profesional</p>
+                <p class="text-xs text-slate-700 font-mono">Pedir Ayuda $\neq$ Incapacidad</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dos Tarjetas Conceptuales: Autocuidado y Desmitificación -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <!-- Tarjeta 1: Cuidado Seguro Simultáneo -->
+          <div class="interactive-card bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-3">
+            <div class="flex items-center gap-3">
+              <span class="w-10 h-10 rounded-xl bg-accent-light text-accent flex items-center justify-center text-lg font-black">
+                <i class="fa-solid fa-user-shield"></i>
+              </span>
+              <h3 class="text-base sm:text-lg font-bold text-slate-800">El Cuidado Seguro es Simultáneo</h3>
+            </div>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              Enfermería no es una profesión de sacrificio desmedido. <strong>Si el profesional se desestabiliza o lesiona, el paciente sufre una caída o traumatismo directo.</strong>
+            </p>
+            <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 text-xs text-slate-700 space-y-2">
+              <div class="flex items-start gap-2">
+                <i class="fa-solid fa-check text-emerald-600 mt-0.5"></i>
+                <span><strong>Doble Vía de Protección:</strong> Resguardar la propia columna vertebral es condición sine qua non para brindar una transferencia suave y segura.</span>
+              </div>
+              <div class="flex items-start gap-2">
+                <i class="fa-solid fa-check text-emerald-600 mt-0.5"></i>
+                <span><strong>Autocuidado Real:</strong> Requiere provisión de equipamiento ergonómico (sábanas deslizantes, grúas, tablas de transferencia) y capacitación continua en equipo.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tarjeta 2: Desmitificando la Buena Postura -->
+          <div class="interactive-card bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-3">
+            <div class="flex items-center gap-3">
+              <span class="w-10 h-10 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center text-lg font-black">
+                <i class="fa-solid fa-ban"></i>
+              </span>
+              <h3 class="text-base sm:text-lg font-bold text-slate-800">El Mito de "La Buena Postura"</h3>
+            </div>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              Se ha repetido históricamente que flexionar las rodillas permite levantar cualquier carga manual. <strong>La biomecánica moderna ha refutado esta afirmación.</strong>
+            </p>
+            <div class="p-3.5 bg-rose-50 rounded-xl border border-rose-200 text-xs text-rose-900 space-y-1.5">
+              <p class="font-bold flex items-center gap-1.5 text-rose-800">
+                <i class="fa-solid fa-circle-exclamation text-rose-600"></i>
+                Cargas vivas e inestables:
+              </p>
+              <p class="leading-relaxed">
+                El paciente es una persona con movimientos impredecibles y espasmos. <strong>Ninguna postura anula las fuerzas de cizallamiento lumbosacras (L5-S1) ante pesos elevados.</strong> La postura por sí sola jamás reemplaza la ayuda humana colaborativa ni los dispositivos mecánicos.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Protocolo de Valoración Previa a la Movilización -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-5">
+          <div class="border-b border-slate-100 pb-3">
+            <span class="text-xs font-bold text-accent uppercase tracking-wider">Algoritmo de Juicio Clínico</span>
+            <h3 class="text-lg font-bold text-slate-800">Valoración Previa a Cualquier Maniobra de Transferencia</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-0.5">
+              Antes de tocar al paciente para movilizarlo, responde inexcusablemente a las tres preguntas clave:
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="interactive-card p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="w-7 h-7 rounded-full bg-accent text-white font-bold flex items-center justify-center text-xs">1</span>
+                <i class="fa-solid fa-person text-accent text-lg"></i>
+              </div>
+              <h4 class="font-bold text-slate-800 text-sm">Autonomía Residual</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                ¿Qué puede realizar la persona por sí misma? ¿Colabora y comprende órdenes sencillas? ¿Tiene sostén en miembros inferiores o agarre en barandas?
+              </p>
+            </div>
+
+            <div class="interactive-card p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="w-7 h-7 rounded-full bg-accent text-white font-bold flex items-center justify-center text-xs">2</span>
+                <i class="fa-solid fa-users text-accent text-lg"></i>
+              </div>
+              <h4 class="font-bold text-slate-800 text-sm">Asistencia Humana</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                ¿Se requiere el apoyo de un colega o camillero? Ante riesgo de mareo, sedación previa o sobrepeso, <strong>está prohibido maniobrar en soledad</strong>.
+              </p>
+            </div>
+
+            <div class="interactive-card p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="w-7 h-7 rounded-full bg-accent text-white font-bold flex items-center justify-center text-xs">3</span>
+                <i class="fa-solid fa-dolly text-accent text-lg"></i>
+              </div>
+              <h4 class="font-bold text-slate-800 text-sm">Recursos Mecánicos</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                ¿Cama ajustada a la altura de la cadera del enfermero? ¿Se cuenta con sábanas deslizantes, tabla de rolado o grúa electromecánica?
+              </p>
+            </div>
+          </div>
+
+          <!-- Cuadro de Juicio Crítico Esencial -->
+          <div class="p-4 rounded-xl bg-accent-light border border-accent/30 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="space-y-1">
+              <h5 class="text-xs font-bold uppercase text-accent tracking-wide">Pregunta de Juicio Crítico Esencial:</h5>
+              <p class="text-slate-800 text-xs sm:text-sm italic font-medium">
+                "¿Esta tarea puede realizarse de manera segura con los recursos y la asistencia disponibles en este preciso instante?"
+              </p>
+              <p class="text-xs text-slate-500">Si la respuesta es <strong>NO</strong>, la maniobra se detiene de inmediato hasta coordinar la ayuda necesaria.</p>
+            </div>
+            <button onclick="switchTab('mod2')" class="shrink-0 bg-accent hover:bg-accent-hover text-white font-semibold text-xs px-4 py-2.5 rounded-xl transition shadow-sm">
+              Avanzar al Módulo 2 <i class="fa-solid fa-arrow-right ml-1"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Navegación inferior -->
+        <div class="flex justify-end pt-2">
+          <button onclick="switchTab('mod2')" class="inline-flex items-center gap-2 bg-accent hover:bg-accent-hover text-white font-semibold text-xs sm:text-sm px-5 py-2.5 rounded-xl shadow-sm transition">
+            <span>Avanzar al Módulo 2: 5 Momentos de la OMS</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+
+      </section>
+
+      <!-- ============================================================== -->
+      <!-- MÓDULO 2: HIGIENE DE MANOS - LOS 5 MOMENTOS DE LA OMS          -->
+      <!-- ============================================================== -->
+      <section id="mod2" class="module-section hidden space-y-6">
+        
+        <!-- Module Intro Banner -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 border-l-4 border-l-accent">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+              <div class="flex items-center space-x-2 text-accent text-xs font-semibold tracking-wider uppercase mb-1">
+                <i class="fa-solid fa-hand-dots"></i>
+                <span>Módulo 2 • Bioseguridad y Control de Infecciones</span>
+              </div>
+              <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-800">Los Cinco Momentos de la OMS para la Higiene de Manos</h2>
+              <p class="text-sm text-slate-600 mt-1 max-w-3xl leading-relaxed">
+                La higiene de manos es la barrera primordial y más costo-efectiva demostrada por la evidencia científica internacional para erradicar las Infecciones Asociadas al Cuidado de la Salud (IACS).
+              </p>
+            </div>
+            <div class="bg-accent-light border border-accent/30 p-3.5 rounded-xl flex items-center space-x-3 self-start md:self-auto shrink-0">
+              <i class="fa-solid fa-hands-wash text-accent text-2xl"></i>
+              <div>
+                <p class="text-[11px] text-accent uppercase font-bold">Regla Innegociable</p>
+                <p class="text-xs text-slate-700 font-mono">Guantes $\neq$ Higiene de Manos</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Banner Regla de Oro -->
+        <div class="p-4 rounded-2xl bg-amber-50 border border-amber-300 flex items-start gap-3 shadow-xs">
+          <div class="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center shrink-0 text-lg font-bold">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+          </div>
+          <div>
+            <h4 class="font-bold text-amber-900 text-sm uppercase tracking-wide">REGLA DE ORO DE BIOSEGURIDAD:</h4>
+            <p class="text-amber-800 text-xs sm:text-sm mt-0.5 leading-relaxed">
+              <strong>Los guantes jamás sustituyen la higiene de manos.</strong> Tras retirarlos, la piel retiene humedad y potenciales microperforaciones del material. <em>La higiene de manos inmediata post-retiro de guantes es obligatoria y mandatoria.</em>
+            </p>
+          </div>
+        </div>
+
+        <!-- Los 5 Momentos Desglosados en Dos Bloques -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          
+          <!-- Bloque A: Proteger al Paciente -->
+          <div class="bg-white rounded-2xl p-6 border-2 border-emerald-200 shadow-sm space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+              <div class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-emerald-600"></span>
+                <h3 class="font-bold text-slate-800 text-base">Para Proteger al Paciente</h3>
+              </div>
+              <span class="text-xs font-bold text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full">Momentos 1 y 2</span>
+            </div>
+
+            <!-- Momento 1 -->
+            <div class="interactive-card p-4 bg-emerald-50/50 rounded-xl border border-emerald-100 space-y-1.5 cursor-pointer" onclick="highlightMoment(1)">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="w-6 h-6 rounded-lg bg-emerald-600 text-white font-bold text-xs flex items-center justify-center">1</span>
+                  <h4 class="font-bold text-slate-900 text-sm">Antes de tocar a la persona</h4>
+                </div>
+                <i class="fa-solid fa-user-injured text-emerald-600"></i>
+              </div>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                <strong>Propósito:</strong> Proteger a la persona de los microorganismos que el personal porta en sus manos procedentes del ambiente o de otros pacientes.
+              </p>
+              <p class="text-[11px] text-emerald-800 italic">Ejemplo: Estrechar la mano, asistir a sentarse o palpar el abdomen.</p>
+            </div>
+
+            <!-- Momento 2 -->
+            <div class="interactive-card p-4 bg-emerald-50/50 rounded-xl border border-emerald-100 space-y-1.5 cursor-pointer" onclick="highlightMoment(2)">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="w-6 h-6 rounded-lg bg-emerald-600 text-white font-bold text-xs flex items-center justify-center">2</span>
+                  <h4 class="font-bold text-slate-900 text-sm">Antes de una tarea limpia o aséptica</h4>
+                </div>
+                <i class="fa-solid fa-syringe text-emerald-600"></i>
+              </div>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                <strong>Propósito:</strong> Evitar la inoculación directa de patógenos en sitios anatómicos estériles o vulnerables.
+              </p>
+              <p class="text-[11px] text-emerald-800 italic">Ejemplo: Canalización de vía venosa, curación de herida quirúrgica, cateterismo vesical o inyecciones.</p>
+            </div>
+          </div>
+
+          <!-- Bloque B: Proteger al Personal y al Entorno -->
+          <div class="bg-white rounded-2xl p-6 border-2 border-sky-200 shadow-sm space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+              <div class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-sky-600"></span>
+                <h3 class="font-bold text-slate-800 text-base">Para Proteger al Personal y al Entorno</h3>
+              </div>
+              <span class="text-xs font-bold text-sky-800 bg-sky-100 px-2.5 py-0.5 rounded-full">Momentos 3, 4 y 5</span>
+            </div>
+
+            <!-- Momento 3 -->
+            <div class="interactive-card p-3.5 bg-sky-50/50 rounded-xl border border-sky-100 space-y-1.5 cursor-pointer" onclick="highlightMoment(3)">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="w-6 h-6 rounded-lg bg-sky-600 text-white font-bold text-xs flex items-center justify-center">3</span>
+                  <h4 class="font-bold text-slate-900 text-xs sm:text-sm">Después del riesgo de exposición a fluidos</h4>
+                </div>
+                <i class="fa-solid fa-biohazard text-sky-600"></i>
+              </div>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                <strong>Propósito:</strong> Protegerse uno mismo y el puesto de enfermería de gérmenes del paciente.
+              </p>
+              <p class="text-[11px] text-sky-800 italic">Ejemplo: Vaciar bolsa colectora, manipular vómitos, sangre, apósitos usados o post-retiro de guantes.</p>
+            </div>
+
+            <!-- Momento 4 -->
+            <div class="interactive-card p-3.5 bg-sky-50/50 rounded-xl border border-sky-100 space-y-1.5 cursor-pointer" onclick="highlightMoment(4)">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="w-6 h-6 rounded-lg bg-sky-600 text-white font-bold text-xs flex items-center justify-center">4</span>
+                  <h4 class="font-bold text-slate-900 text-xs sm:text-sm">Después del contacto con la persona</h4>
+                </div>
+                <i class="fa-solid fa-person-walking-arrow-right text-sky-600"></i>
+              </div>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                <strong>Propósito:</strong> Evitar la diseminación de la flora cutánea del paciente a otros sectores o pacientes.
+              </p>
+              <p class="text-[11px] text-sky-800 italic">Ejemplo: Tras controlar la tensión arterial, acomodar la ropa de cama o despedirse.</p>
+            </div>
+
+            <!-- Momento 5 -->
+            <div class="interactive-card p-3.5 bg-sky-50/50 rounded-xl border border-sky-100 space-y-1.5 cursor-pointer" onclick="highlightMoment(5)">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="w-6 h-6 rounded-lg bg-sky-600 text-white font-bold text-xs flex items-center justify-center">5</span>
+                  <h4 class="font-bold text-slate-900 text-xs sm:text-sm">Después del contacto con el entorno inmediato</h4>
+                </div>
+                <i class="fa-solid fa-bed text-sky-600"></i>
+              </div>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                <strong>¡Punto clave de examen!</strong> Aplica <span class="text-rose-700 font-bold">incluso sin haber tocado físicamente al paciente</span>. Las superficies inanimadas adyacentes están colonizadas.
+              </p>
+              <p class="text-[11px] text-sky-800 italic">Ejemplo: Acomodar la mesa de noche, silenciar una bomba de infusión o manipular la barandilla.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Zona Interactiva de Demostración Operacional -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3 text-center">
+          <h4 class="font-bold text-slate-800 text-sm">Explorador Rápido de Pautas Operacionales (OMS)</h4>
+          <p class="text-xs text-slate-500">Haz clic en cada momento para revisar la indicación exacta:</p>
+          <div class="flex flex-wrap justify-center gap-2">
+            <button onclick="highlightMoment(1)" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 transition">Momento 1: Tocar Persona</button>
+            <button onclick="highlightMoment(2)" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 transition">Momento 2: Tarea Aséptica</button>
+            <button onclick="highlightMoment(3)" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 transition">Momento 3: Fluidos Corporales</button>
+            <button onclick="highlightMoment(4)" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 transition">Momento 4: Dejar al Paciente</button>
+            <button onclick="highlightMoment(5)" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 transition">Momento 5: Entorno Inmediato</button>
+          </div>
+          <div id="moment-feedback-box" class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 text-slate-700 text-xs sm:text-sm font-medium transition min-h-[46px] flex items-center justify-center">
+            Selecciona un momento arriba para visualizar su regla de aplicación asistencial.
+          </div>
+        </div>
+
+        <!-- Navegación inferior -->
+        <div class="flex justify-between pt-2">
+          <button onclick="switchTab('mod1')" class="inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold text-xs sm:text-sm px-5 py-2.5 rounded-xl border border-gray-200 transition">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>Volver al Módulo 1</span>
+          </button>
+          <button onclick="switchTab('mod3')" class="inline-flex items-center gap-2 bg-accent hover:bg-accent-hover text-white font-semibold text-xs sm:text-sm px-5 py-2.5 rounded-xl shadow-sm transition">
+            <span>Avanzar al Módulo 3: Métodos y Técnicas</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+
+      </section>
+
+      <!-- ============================================================== -->
+      <!-- MÓDULO 3: MÉTODOS Y TÉCNICA DE HIGIENE DE MANOS                -->
+      <!-- ============================================================== -->
+      <section id="mod3" class="module-section hidden space-y-6">
+        
+        <!-- Module Intro Banner -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 border-l-4 border-l-accent">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+              <div class="flex items-center space-x-2 text-accent text-xs font-semibold tracking-wider uppercase mb-1">
+                <i class="fa-solid fa-hands-bubbles"></i>
+                <span>Módulo 3 • Métodos, Duración y Topografía Crítica</span>
+              </div>
+              <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-800">Fricción Alcohólica vs. Lavado con Agua y Jabón</h2>
+              <p class="text-sm text-slate-600 mt-1 max-w-3xl leading-relaxed">
+                Dominar el método correcto según la presencia o ausencia de suciedad visible, respetar los tiempos normativos (20-30 s vs. 40-60 s) y cubrir las zonas anatómicas frecuentemente omitidas.
+              </p>
+            </div>
+            <div class="bg-accent-light border border-accent/30 p-3.5 rounded-xl flex items-center space-x-3 self-start md:self-auto shrink-0">
+              <i class="fa-solid fa-stopwatch text-accent text-2xl"></i>
+              <div>
+                <p class="text-[11px] text-accent uppercase font-bold">Tiempos Normativos</p>
+                <p class="text-xs text-slate-700 font-mono">20-30s Gel | 40-60s Jabón</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dos Métodos en Paralelo -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          <!-- Método 1: Fricción Alcohólica -->
+          <div class="interactive-card bg-white rounded-2xl p-6 border-2 border-accent/30 shadow-sm flex flex-col justify-between space-y-4">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="px-3 py-1 bg-accent-light text-accent font-bold text-xs rounded-full border border-accent/30">MÉTODO DE ELECCIÓN HABITUAL</span>
+                <span class="text-sm font-extrabold text-accent"><i class="fa-solid fa-stopwatch"></i> 20 a 30 seg</span>
+              </div>
+              
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-xl bg-accent-light text-accent flex items-center justify-center text-2xl">
+                  <i class="fa-solid fa-bottle-droplet"></i>
+                </div>
+                <div>
+                  <h3 class="text-lg font-bold text-slate-900">Fricción con Preparado Alcohólico</h3>
+                  <p class="text-xs text-slate-500">Alcohol en gel o solución hidroalcohólica (60% - 80%)</p>
+                </div>
+              </div>
+
+              <div class="space-y-2 text-xs text-slate-700">
+                <div class="p-3 bg-slate-50 rounded-lg">
+                  <strong class="text-accent block mb-1">¿Cuándo se utiliza?</strong>
+                  Siempre que las manos <strong class="text-accent uppercase">NO estén visiblemente sucias</strong> ni expuestas a fluidos densos o esporas. Es más rápido, más accesible al pie de cama y mejor tolerado dermatológicamente.
+                </div>
+                <div class="p-3 bg-slate-50 rounded-lg">
+                  <strong class="text-accent block mb-1">Punto crítico técnico:</strong>
+                  Aplicar dosis suficiente y <strong>frotar todas las superficies hasta que las manos queden totalmente secas</strong>. Jamás usar toallas de papel para retirar el producto ni sacudir las manos en el aire.
+                </div>
+              </div>
+            </div>
+
+            <button onclick="startHandwashTimer('alcohol')" class="w-full bg-accent hover:bg-accent-hover text-white font-bold py-2.5 rounded-xl text-xs transition shadow-sm flex items-center justify-center gap-2">
+              <i class="fa-solid fa-play"></i> Simular Temporizador de Fricción (20-30 s)
+            </button>
+          </div>
+
+          <!-- Método 2: Lavado con Agua y Jabón -->
+          <div class="interactive-card bg-white rounded-2xl p-6 border-2 border-emerald-300 shadow-sm flex flex-col justify-between space-y-4">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="px-3 py-1 bg-emerald-50 text-emerald-800 font-bold text-xs rounded-full border border-emerald-200">MÉTODO OBLIGATORIO POR SUCIEDAD</span>
+                <span class="text-sm font-extrabold text-emerald-700"><i class="fa-solid fa-stopwatch"></i> 40 a 60 seg</span>
+              </div>
+              
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-2xl">
+                  <i class="fa-solid fa-faucet-drip"></i>
+                </div>
+                <div>
+                  <h3 class="text-lg font-bold text-slate-900">Lavado con Agua y Jabón</h3>
+                  <p class="text-xs text-slate-500">Jabón líquido neutro o antiséptico</p>
+                </div>
+              </div>
+
+              <div class="space-y-2 text-xs text-slate-700">
+                <div class="p-3 bg-slate-50 rounded-lg">
+                  <strong class="text-emerald-800 block mb-1">¿Cuándo es imperativo?</strong>
+                  1. Presencia de <strong class="text-emerald-700 uppercase">suciedad visible o contacto con fluidos biológicos</strong>.<br>
+                  2. Sospecha o confirmación de patógenos formadores de esporas (como <em>Clostridioides difficile</em>).<br>
+                  3. Luego de usar el sanitario.
+                </div>
+                <div class="p-3 bg-slate-50 rounded-lg">
+                  <strong class="text-emerald-800 block mb-1">Punto crítico técnico:</strong>
+                  Los 40 a 60 segundos abarcan el ciclo completo. Secar minuciosamente con <strong>toalla descartable de un solo uso</strong> y cerrar el grifo con la misma toalla para no recontaminar las palmas limpias.
+                </div>
+              </div>
+            </div>
+
+            <button onclick="startHandwashTimer('water')" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl text-xs transition shadow-sm flex items-center justify-center gap-2">
+              <i class="fa-solid fa-play"></i> Simular Temporizador de Lavado (40-60 s)
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Temporizador Interactivo en Pantalla -->
+        <div id="timer-box" class="hidden bg-slate-900 text-white p-6 rounded-2xl shadow-xl flex flex-col items-center justify-center space-y-4">
+          <div class="flex items-center justify-between w-full">
+            <span id="timer-title" class="text-xs font-bold tracking-wider text-emerald-300 uppercase">Simulación de Técnica Guiada</span>
+            <button onclick="stopHandwashTimer()" class="text-slate-400 hover:text-white text-xs"><i class="fa-solid fa-xmark"></i> Cerrar</button>
+          </div>
+          <div class="relative w-32 h-32 flex items-center justify-center">
+            <svg class="w-full h-full transform -rotate-90">
+              <circle cx="64" cy="64" r="52" stroke="#334155" stroke-width="8" fill="transparent" />
+              <circle id="timer-circle-progress" cx="64" cy="64" r="52" stroke="#436600" stroke-width="8" stroke-dasharray="326" stroke-dashoffset="0" stroke-linecap="round" fill="transparent" class="transition-all duration-1000 ease-linear" />
+            </svg>
+            <span id="timer-display" class="absolute text-2xl font-black font-mono text-white">0s</span>
+          </div>
+          <p id="timer-step-instruction" class="text-xs sm:text-sm text-slate-300 text-center max-w-md font-medium">
+            Iniciando simulación...
+          </p>
+        </div>
+
+        <!-- Topografía de Riesgo: Zonas Frecuentemente Omitidas -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-5">
+          <div>
+            <span class="text-xs font-bold text-rose-600 uppercase tracking-wider">Topografía de Riesgo Microbiológico</span>
+            <h3 class="text-lg font-bold text-slate-900 mt-1">
+              Las Tres Zonas Frecuentemente Omitidas durante la Fricción y el Lavado
+            </h3>
+            <p class="text-slate-600 text-xs sm:text-sm mt-0.5">
+              Los estudios con luz ultravioleta demuestran que más del 70% del personal olvida frotar estas áreas donde proliferan bacterias multirresistentes:
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <!-- Zona 1 -->
+            <div class="interactive-card border border-rose-200 bg-rose-50/50 p-4 rounded-xl flex flex-col items-center text-center space-y-2">
+              <div class="w-12 h-12 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center text-xl font-bold">
+                <i class="fa-solid fa-thumbs-up"></i>
+              </div>
+              <h4 class="font-bold text-slate-800 text-sm">1. Los Pulgares</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Al frotar las palmas, los pulgares quedan fuera del radio de contacto. Requiere fricción rotacional envolvente con la palma contraria.
+              </p>
+            </div>
+
+            <!-- Zona 2 -->
+            <div class="interactive-card border border-rose-200 bg-rose-50/50 p-4 rounded-xl flex flex-col items-center text-center space-y-2">
+              <div class="w-12 h-12 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center text-xl font-bold">
+                <i class="fa-solid fa-fingerprint"></i>
+              </div>
+              <h4 class="font-bold text-slate-800 text-sm">2. Puntas de Dedos y Lecho Ungueal</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Debajo de las uñas y en los pulpejos radica la mayor carga bacteriana subungueal. Se debe frotar contra la palma opuesta con movimientos circulares.
+              </p>
+            </div>
+
+            <!-- Zona 3 -->
+            <div class="interactive-card border border-rose-200 bg-rose-50/50 p-4 rounded-xl flex flex-col items-center text-center space-y-2">
+              <div class="w-12 h-12 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center text-xl font-bold">
+                <i class="fa-solid fa-handshake"></i>
+              </div>
+              <h4 class="font-bold text-slate-800 text-sm">3. Espacios Interdigitales</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Los pliegues interdigitales acumulan sudor y gérmenes. Exige entrelazar los dedos frotando palmas entre sí y dorsos enérgicamente.
+              </p>
+            </div>
+          </div>
+
+          <div class="bg-accent-light border border-accent/30 p-3.5 rounded-xl flex items-center gap-3 text-xs text-slate-700">
+            <i class="fa-solid fa-circle-info text-accent text-base shrink-0"></i>
+            <span><strong>Norma Institucional de Presentación:</strong> Uñas cortas, limpias y sin esmaltes ni uñas postizas. Retirar anillos, pulseras y reloj antes del turno hospitalario ya que son reservorios inamovibles.</span>
+          </div>
+        </div>
+
+        <!-- Navegación inferior -->
+        <div class="flex justify-between pt-2">
+          <button onclick="switchTab('mod2')" class="inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold text-xs sm:text-sm px-5 py-2.5 rounded-xl border border-gray-200 transition">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>Volver al Módulo 2</span>
+          </button>
+          <button onclick="switchTab('mod4')" class="inline-flex items-center gap-2 bg-accent hover:bg-accent-hover text-white font-semibold text-xs sm:text-sm px-5 py-2.5 rounded-xl shadow-sm transition">
+            <span>Avanzar al Módulo 4: EPP Seguro & Casos</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+
+      </section>
+
+      <!-- ============================================================== -->
+      <!-- MÓDULO 4: ELEMENTOS DE PROTECCIÓN PERSONAL Y CASOS CLÍNICOS    -->
+      <!-- ============================================================== -->
+      <section id="mod4" class="module-section hidden space-y-6">
+        
+        <!-- Module Intro Banner -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 border-l-4 border-l-accent">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+              <div class="flex items-center space-x-2 text-accent text-xs font-semibold tracking-wider uppercase mb-1">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>Módulo 4 • Selección Racional, Retiro y Situaciones Clínicas</span>
+              </div>
+              <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-800">Uso Seguro de EPP y Situaciones Clínicas de la Práctica</h2>
+              <p class="text-sm text-slate-600 mt-1 max-w-3xl leading-relaxed">
+                El EPP solo protege si se selecciona según el riesgo anticipado y se retira sin autocontaminación. Analiza los componentes, la secuencia crítica de desvestido (Doffing) y las situaciones formativas de la cátedra.
+              </p>
+            </div>
+            <div class="bg-accent-light border border-accent/30 p-3.5 rounded-xl flex items-center space-x-3 self-start md:self-auto shrink-0">
+              <i class="fa-solid fa-vest text-accent text-2xl"></i>
+              <div>
+                <p class="text-[11px] text-accent uppercase font-bold">Momento Crítico</p>
+                <p class="text-xs text-slate-700 font-mono">Doffing (Retiro)</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Principio de Selección No Universal -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+          <h3 class="text-sm sm:text-base font-bold text-slate-800 flex items-center gap-2">
+            <i class="fa-solid fa-sliders text-accent"></i>
+            Principio de Selección Específica (No Universal)
+          </h3>
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            No existe un combo estándar de EPP para ingresar a todas las habitaciones. <strong>Se elige estrictamente según la tarea a ejecutar y la vía de transmisión del aislamiento (Contacto, Gotas o Vía Aérea).</strong> La sobreutilización innecesaria no brinda mayor protección, dilapida insumos críticos y entorpece la motricidad fina del operador.
+          </p>
+        </div>
+
+        <!-- 4 Componentes de EPP -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <!-- Guantes -->
+          <div class="interactive-card bg-white p-4 rounded-xl border border-slate-200 space-y-2">
+            <div class="w-10 h-10 rounded-lg bg-sky-50 text-sky-700 flex items-center justify-center text-lg">
+              <i class="fa-solid fa-mitten"></i>
+            </div>
+            <h4 class="font-bold text-slate-800 text-sm">Guantes</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Contacto anticipado con sangre, mucosas, fluidos o piel no intacta.
+            </p>
+            <div class="p-2 bg-rose-50 rounded-lg text-[11px] text-rose-800 font-semibold">
+              ¡Prohibido lavarlos, desinfectarlos con alcohol o reutilizarlos!
+            </div>
+          </div>
+
+          <!-- Camisolín -->
+          <div class="interactive-card bg-white p-4 rounded-xl border border-slate-200 space-y-2">
+            <div class="w-10 h-10 rounded-lg bg-indigo-50 text-indigo-700 flex items-center justify-center text-lg">
+              <i class="fa-solid fa-vest"></i>
+            </div>
+            <h4 class="font-bold text-slate-800 text-sm">Camisolín</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Protege uniforme y piel ante salpicaduras o contacto con superficies bajo aislamiento.
+            </p>
+            <div class="p-2 bg-slate-50 rounded-lg text-[11px] text-slate-700">
+              Atado completo en cuello y cintura cubriendo todo el torso.
+            </div>
+          </div>
+
+          <!-- Protección Ocular/Facial -->
+          <div class="interactive-card bg-white p-4 rounded-xl border border-slate-200 space-y-2">
+            <div class="w-10 h-10 rounded-lg bg-teal-50 text-teal-700 flex items-center justify-center text-lg">
+              <i class="fa-solid fa-glasses"></i>
+            </div>
+            <h4 class="font-bold text-slate-800 text-sm">Gafas o Escudos</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Protección ocular y facial ante gotas o aerosoles proyectados (aspiración, intubación).
+            </p>
+            <div class="p-2 bg-slate-50 rounded-lg text-[11px] text-slate-700">
+              Los anteojos recetados personales NO son barrera biológica lateral.
+            </div>
+          </div>
+
+          <!-- Protección Respiratoria -->
+          <div class="interactive-card bg-white p-4 rounded-xl border border-slate-200 space-y-2">
+            <div class="w-10 h-10 rounded-lg bg-purple-50 text-purple-700 flex items-center justify-center text-lg">
+              <i class="fa-solid fa-head-side-mask"></i>
+            </div>
+            <h4 class="font-bold text-slate-800 text-sm">Barbijo vs. N95</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              <strong>Barbijo:</strong> gotas gruesas a corta distancia.<br>
+              <strong>Respirador N95/FFP2:</strong> aerosoles microscópicos (TBC, sarampión).
+            </p>
+            <div class="p-2 bg-purple-50 rounded-lg text-[11px] text-purple-800 font-semibold">
+              Requiere ajuste y sello hermético facial.
+            </div>
+          </div>
+        </div>
+
+        <!-- Secuencia de Retiro Seguro (Doffing) -->
+        <div class="bg-white rounded-2xl p-6 border-2 border-rose-300 shadow-sm space-y-4">
+          <div class="flex items-center gap-3">
+            <span class="w-9 h-9 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center text-lg font-bold">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+            </span>
+            <div>
+              <h3 class="text-base sm:text-lg font-bold text-slate-900">
+                El Momento de Mayor Riesgo: Retiro Seguro de EPP (Doffing)
+              </h3>
+              <p class="text-xs text-slate-600">
+                El mayor índice de autocontaminación del trabajador ocurre si las manos limpias tocan la cara externa contaminada:
+              </p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            <div class="bg-rose-50/60 border border-rose-200 p-3.5 rounded-xl space-y-1.5">
+              <span class="w-6 h-6 rounded-full bg-rose-600 text-white font-bold text-xs flex items-center justify-center">1</span>
+              <h5 class="font-bold text-slate-800 text-xs sm:text-sm">Retiro de Guantes</h5>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Técnica pico de pato: el exterior del primer guante solo se toca con guante. El segundo guante se retira tomándolo desde su cara interna limpia.
+              </p>
+            </div>
+
+            <div class="bg-rose-50/60 border border-rose-200 p-3.5 rounded-xl space-y-1.5">
+              <span class="w-6 h-6 rounded-full bg-rose-600 text-white font-bold text-xs flex items-center justify-center">2</span>
+              <h5 class="font-bold text-slate-800 text-xs sm:text-sm">Higiene Intermedia</h5>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Inmediatamente post-guantes, aplicar fricción alcohólica para higienizar las manos antes de tocar cuello, cintas o rostro.
+              </p>
+            </div>
+
+            <div class="bg-rose-50/60 border border-rose-200 p-3.5 rounded-xl space-y-1.5">
+              <span class="w-6 h-6 rounded-full bg-rose-600 text-white font-bold text-xs flex items-center justify-center">3</span>
+              <h5 class="font-bold text-slate-800 text-xs sm:text-sm">Camisolín y Gafas</h5>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Desatar sin sacudir. Enrollar hacia adelante con la superficie contaminada hacia adentro. Las gafas se toman siempre por las patillas laterales limpias.
+              </p>
+            </div>
+
+            <div class="bg-rose-50/60 border border-rose-200 p-3.5 rounded-xl space-y-1.5">
+              <span class="w-6 h-6 rounded-full bg-rose-600 text-white font-bold text-xs flex items-center justify-center">4</span>
+              <h5 class="font-bold text-slate-800 text-xs sm:text-sm">Barbijo & Higiene Final</h5>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Tomar únicamente de las bandas elásticas traseras sin tocar la copa frontal. Descartar en bolsa roja y culminar con lavado/fricción estricto.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Casos y Situaciones Paradigmáticas de la Cátedra (Estudio Reflexivo) -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-5">
+          <div class="border-b border-slate-100 pb-3">
+            <h3 class="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
+              <i class="fa-solid fa-user-nurse text-accent"></i>
+              Situaciones Paradigmáticas de la Práctica Asistencial
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-0.5">
+              Reflexión crítica guiada sobre dos escenarios representativos del ingreso a la enfermería:
+            </p>
+          </div>
+
+          <!-- Escenario 1: Selección de EPP -->
+          <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold uppercase px-2.5 py-1 bg-purple-100 text-purple-800 rounded-full">Escenario 1: Selección Racional de EPP</span>
+              <span class="text-xs text-slate-500 font-semibold"><i class="fa-solid fa-lungs mr-1"></i> Unidad de Terapia Intermedia</span>
+            </div>
+            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+              Debes realizar la aspiración de secreciones en un paciente con traqueostomía que presenta tos productiva frecuente (riesgo alto de salpicaduras biológicas directas y generación de aerosoles).
+            </p>
+            <div class="p-3.5 bg-white rounded-xl border border-emerald-200 text-xs sm:text-sm text-slate-700 space-y-1">
+              <strong class="text-accent flex items-center gap-1.5 font-bold">
+                <i class="fa-solid fa-check-circle text-emerald-600"></i> Conducta Profesional Correcta:
+              </strong>
+              <p class="leading-relaxed">
+                El conjunto de EPP científicamente justificado es: <strong>Guantes limpios + Camisolín hidrorepelente + Barbijo de alta filtración / respirador + Gafas de seguridad o pantalla facial</strong>. La opción de usar solo guantes deja los ojos y vías respiratorias expuestas a inoculación biológica, mientras que trajes tipo hazmat o escafandras constituyen sobreutilización irracional que entorpece la motricidad fina.
+              </p>
+            </div>
+          </div>
+
+          <!-- Escenario 2: Dilema Ergonómico y Autocuidado -->
+          <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold uppercase px-2.5 py-1 bg-amber-100 text-amber-800 rounded-full">Escenario 2: Dilema Ergonómico y Autocuidado</span>
+              <span class="text-xs text-slate-500 font-semibold"><i class="fa-solid fa-bed mr-1"></i> Servicio de Cirugía General</span>
+            </div>
+            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+              Don Pedro pesa 115 kg, cursa un postoperatorio inmediato con debilidad y movilidad nula en miembros inferiores. El médico indica transferirlo de la cama a la silla de ruedas. Estás solo/a en la habitación en ese instante.
+            </p>
+            <div class="p-3.5 bg-white rounded-xl border border-emerald-200 text-xs sm:text-sm text-slate-700 space-y-1">
+              <strong class="text-accent flex items-center gap-1.5 font-bold">
+                <i class="fa-solid fa-check-circle text-emerald-600"></i> Juicio Clínico y Seguridad:
+              </strong>
+              <p class="leading-relaxed">
+                <strong>Detener de inmediato cualquier intento de maniobra manual en solitario.</strong> Flexionar las rodillas o "cuidar la espalda" no anula la compresión discal ante 115 kg de carga viva. La conducta correcta es coordinar la asistencia activa de otro compañero y solicitar la grúa mecánica institucional o tabla de transferencia. <em>Pedir ayuda y equipamiento es una práctica obligatoria de bioseguridad.</em>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Botón hacia inicio/módulos -->
+        <div class="flex justify-between pt-2">
+          <button onclick="switchTab('mod3')" class="inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold text-xs sm:text-sm px-5 py-2.5 rounded-xl border border-gray-200 transition">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>Volver al Módulo 3</span>
+          </button>
+          <button onclick="switchTab('mod1')" class="inline-flex items-center gap-2 bg-accent hover:bg-accent-hover text-white font-semibold text-xs sm:text-sm px-6 py-2.5 rounded-xl shadow-sm transition">
+            <span>Volver al Inicio (Módulo 1)</span>
+            <i class="fa-solid fa-rotate-left"></i>
+          </button>
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ==================== MODAL VADEMÉCUM TEÓRICO (IDÉNTICO A U4-01 Y U4-02) ==================== -->
+  <div id="modal-formulas" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-hidden flex flex-col shadow-2xl border border-slate-200">
+      
+      <div class="bg-white p-4 sm:p-5 border-b border-gray-200 flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-accent text-white flex items-center justify-center font-bold text-sm">
+            <i class="fa-solid fa-book-bookmark"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-gray-800 text-sm sm:text-base">Vademécum de Bioseguridad y Ergonomía</h3>
+            <p class="text-[11px] text-gray-500">Fundamentos y Estándares Asistenciales (OMS - UCCuyo)</p>
+          </div>
+        </div>
+        <button onclick="closeFormulasModal()" class="w-8 h-8 rounded-lg bg-gray-100 text-gray-500 hover:bg-gray-200 flex items-center justify-center transition">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="p-6 overflow-y-auto space-y-6 text-xs sm:text-sm custom-scroll">
+        
+        <!-- Los 5 Momentos -->
+        <div class="border border-slate-200 rounded-xl p-4 bg-slate-50">
+          <h4 class="font-bold text-accent mb-2 flex items-center gap-2 text-sm">
+            <i class="fa-solid fa-hand-dots"></i> 1. Los Cinco Momentos de la OMS
+          </h4>
+          <div class="space-y-1.5 text-slate-700">
+            <p><strong>Para proteger al paciente:</strong> 1. Antes de tocar a la persona | 2. Antes de tarea limpia/aséptica.</p>
+            <p><strong>Para proteger al personal y entorno:</strong> 3. Después de exposición a fluidos | 4. Después de tocar a la persona | 5. Después de tocar el entorno inmediato del paciente.</p>
+            <p class="text-rose-700 font-semibold pt-1">Regla de oro: Los guantes nunca sustituyen la higiene de manos. Post-retiro, la higiene es mandatoria.</p>
+          </div>
+        </div>
+
+        <!-- Fricción vs Lavado -->
+        <div class="border border-slate-200 rounded-xl p-4 bg-slate-50">
+          <h4 class="font-bold text-accent mb-2 flex items-center gap-2 text-sm">
+            <i class="fa-solid fa-stopwatch"></i> 2. Métodos y Tiempos Normativos de Higiene
+          </h4>
+          <div class="space-y-1 text-slate-700 font-mono text-xs">
+            <p>• <strong>Fricción Alcohólica:</strong> 20 a 30 segundos (método de elección habitual sin suciedad visible; frotar hasta secado completo).</p>
+            <p>• <strong>Agua y Jabón:</strong> 40 a 60 segundos (obligatorio con suciedad visible, fluidos o esporas; secar con toalla descartable y cerrar grifo con ella).</p>
+            <p>• <strong>Topografía crítica omitida:</strong> Pulgares, lechos ungueales/puntas de dedos y espacios interdigitales.</p>
+          </div>
+        </div>
+
+        <!-- Principios de Ergonomía y EPP -->
+        <div class="border border-slate-200 rounded-xl p-4 bg-slate-50">
+          <h4 class="font-bold text-accent mb-2 flex items-center gap-2 text-sm">
+            <i class="fa-solid fa-shield-halved"></i> 3. Ergonomía y Retiro Seguro de EPP (Doffing)
+          </h4>
+          <p class="text-slate-700 text-xs leading-relaxed">
+            La postura por sí sola no anula el cizallamiento en L5-S1. Pedir ayuda y usar dispositivos mecánicos es obligatorio. En EPP, la selección es específica por tarea y vía de aislamiento; el mayor riesgo de autocontaminación radica en el desvestido (retirar guantes $\to$ higiene intermedia $\to$ camisolín/gafas $\to$ barbijo $\to$ higiene final).
+          </p>
+        </div>
+
+      </div>
+
+      <div class="bg-gray-50 p-4 border-t border-gray-200 flex justify-end">
+        <button onclick="closeFormulasModal()" class="px-4 py-2 bg-accent text-white font-semibold rounded-lg hover:bg-accent-hover text-xs transition shadow-sm">
+          Cerrar Vademécum
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL GUÍA DE USO (IDÉNTICO A U4-01 Y U4-02) ==================== -->
+  <div id="modal-tutorial" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-hidden flex flex-col shadow-2xl border border-slate-200">
+      
+      <div class="bg-white p-4 sm:p-5 border-b border-gray-200 flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-accent text-white flex items-center justify-center font-bold text-sm">
+            <i class="fa-solid fa-graduation-cap"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-gray-800 text-sm sm:text-base">Guía de Uso del Simulador</h3>
+            <p class="text-[11px] text-gray-500">Orientaciones pedagógicas para el aspirante a la Licenciatura en Enfermería</p>
+          </div>
+        </div>
+        <button onclick="closeTutorial()" class="w-8 h-8 rounded-lg bg-gray-100 text-gray-500 hover:bg-gray-200 flex items-center justify-center transition">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="p-6 overflow-y-auto space-y-6 text-xs md:text-sm text-gray-700 custom-scroll leading-relaxed">
+        
+        <!-- Sección 1: Propósito -->
+        <div class="border-b border-gray-100 pb-4">
+          <h4 class="font-bold text-accent text-sm mb-1 flex items-center gap-2">
+            <i class="fa-solid fa-bullseye"></i> 1. Propósito Tecnopedagógico
+          </h4>
+          <p class="text-gray-600 leading-relaxed">
+            Este simulador interactivo está concebido como una herramienta de andamiaje formativo para los aspirantes al <strong>Curso de Ingreso a la Licenciatura en Enfermería (Facultad de Ciencias Médicas - Universidad Católica de Cuyo)</strong>. Su objetivo es consolidar el criterio de que la seguridad de quien cuida y de quien recibe el cuidado están indisolublemente vinculadas, desmitificar la falacia de la postura individual sin equipamiento, interiorizar los 5 momentos de la OMS y dominar el uso y retiro seguro de EPP.
+          </p>
+        </div>
+
+        <!-- Sección 2: Módulos -->
+        <div class="border-b border-gray-100 pb-4">
+          <h4 class="font-bold text-accent text-sm mb-3 flex items-center gap-2">
+            <i class="fa-solid fa-layer-group"></i> 2. Guía Detallada de Módulos y Herramientas Interactivas
+          </h4>
+          
+          <div class="space-y-3 text-gray-600">
+            <div class="p-3 bg-gray-50 rounded-xl border border-gray-200">
+              <strong class="text-accent flex items-center gap-1.5 mb-1 text-xs sm:text-sm">
+                <i class="fa-solid fa-person-walking"></i> Módulo 1: Ergonomía, Mecánica Corporal y Autocuidado
+              </strong>
+              <p>Comprende la doble vía de protección simultánea, desmitifica el peligroso dogma de la "buena postura" sin asistencia, interioriza la pregunta de juicio crítico esencial (<em>"¿Esta tarea puede realizarse de manera segura en este preciso instante?"</em>) y analiza el algoritmo de valoración previa en tres preguntas: <strong>1. Autonomía residual</strong>, <strong>2. Asistencia humana</strong> y <strong>3. Recursos mecánicos</strong>, junto al axioma de que pedir ayuda es una práctica obligatoria de bioseguridad.</p>
+            </div>
+
+            <div class="p-3 bg-gray-50 rounded-xl border border-gray-200">
+              <strong class="text-accent flex items-center gap-1.5 mb-1 text-xs sm:text-sm">
+                <i class="fa-solid fa-hand-dots"></i> Módulo 2: Los Cinco Momentos de la OMS
+              </strong>
+              <p>Diferencia con exactitud los momentos que protegen al paciente (<strong>1. Antes de tocarlo</strong> y <strong>2. Antes de tarea limpia/aséptica</strong>) de los que protegen al profesional y al entorno hospitalario (<strong>3. Después de exposición a fluidos</strong>, <strong>4. Después de tocarlo</strong> y <strong>5. Después del entorno inmediato</strong>). Explora el interactivo de pautas operacionales y asimila la regla de oro: <em>los guantes jamás sustituyen la higiene de manos</em>.</p>
+            </div>
+
+            <div class="p-3 bg-gray-50 rounded-xl border border-gray-200">
+              <strong class="text-accent flex items-center gap-1.5 mb-1 text-xs sm:text-sm">
+                <i class="fa-solid fa-hands-bubbles"></i> Módulo 3: Métodos, Tiempos y Zonas Críticas
+              </strong>
+              <p>Compara la <strong>fricción con alcohol en gel</strong> (20 a 30 s, de elección habitual sin suciedad visible; frotar hasta la evaporación total) frente al <strong>lavado con agua y jabón</strong> (40 a 60 s, imperativo ante suciedad, sangre o esporas; secar y cerrar la canilla con toalla descartable). Practica con el <strong>temporizador circular interactivo con guía de pasos</strong> y memoriza la topografía de las tres zonas frecuentemente omitidas (pulgares, lecho ungueal/puntas de dedos y espacios interdigitales).</p>
+            </div>
+
+            <div class="p-3 bg-gray-50 rounded-xl border border-gray-200">
+              <strong class="text-accent flex items-center gap-1.5 mb-1 text-xs sm:text-sm">
+                <i class="fa-solid fa-shield-halved"></i> Módulo 4: EPP Seguro y Situaciones Paradigmáticas
+              </strong>
+              <p>Domina el principio de selección específica por tarea y vía de aislamiento (sin sobreutilización ni desprotección), la diferencia entre barbijo quirúrgico y respirador N95/FFP2, y la secuencia protocolizada de 4 pasos de <strong>retiro seguro (Doffing)</strong> con higiene intermedia para evitar la autocontaminación. Analiza las dos situaciones clínicas reales de la cátedra: <em>aspiración de traqueostomía con tos</em> y <em>transferencia de paciente de 115 kg</em>.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sección 3: Consejos -->
+        <div>
+          <h4 class="font-bold text-accent text-sm mb-1 flex items-center gap-2">
+            <i class="fa-solid fa-circle-info"></i> 3. Consejos de Estudio y Consulta Permanente
+          </h4>
+          <p class="text-gray-600 leading-relaxed">
+            Puedes abrir el <strong>Vademécum</strong> en cualquier momento desde la cabecera superior para repasar pautas y normas de bioseguridad. Navega libremente por los módulos utilizando el panel lateral para afianzar tus competencias antes de la práctica hospitalaria.
+          </p>
+        </div>
+
+      </div>
+
+      <div class="bg-gray-50 p-4 border-t border-gray-200 flex justify-end">
+        <button onclick="closeTutorial()" class="px-5 py-2 bg-accent text-white font-semibold rounded-lg hover:bg-accent-hover text-xs transition shadow-sm">
+          Entendido, Comenzar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pie de Página Institucional Canónico (Idéntico a U4-01 y U4-02) -->
+  <footer class="bg-white border-t border-gray-200 py-3 text-center text-xs text-gray-500 font-medium">
+    Desarrollado por vesalio - Todos los derechos reservados
+  </footer>
+
+  <!-- ==================== LÓGICA JAVASCRIPT INTEGRAL ==================== -->
+  <script>
+    // ESTADO GLOBAL DE LA APLICACIÓN
+    const appState = {
+      activeTab: 'mod1',
+      timerRunning: false,
+      timerInterval: null,
+      timeLeft: 0,
+      totalTime: 0
+    };
+
+    // NAVEGACIÓN ENTRE MÓDULOS (ESTILO CANÓNICO U4-02)
+    function switchTab(tabId) {
+      appState.activeTab = tabId;
+
+      // Ocultar todas las secciones
+      document.querySelectorAll('.module-section').forEach(sec => {
+        sec.classList.add('hidden');
+      });
+
+      // Mostrar sección seleccionada
+      const targetSec = document.getElementById(tabId);
+      if (targetSec) targetSec.classList.remove('hidden');
+
+      // Actualizar botones de navegación lateral
+      document.querySelectorAll('#navTabs .nav-btn').forEach(btn => {
+        if (btn.getAttribute('data-tab') === tabId) {
+          btn.className = "nav-btn bg-accent text-white flex-1 lg:flex-none text-left py-2.5 px-4 rounded-xl text-xs sm:text-sm font-semibold transition shadow-sm flex items-center gap-2";
+        } else {
+          btn.className = "nav-btn text-gray-700 hover:bg-gray-100 flex-1 lg:flex-none text-left py-2.5 px-4 rounded-xl text-xs sm:text-sm font-medium transition flex items-center gap-2";
+        }
+      });
+
+      // Scroll suave hacia arriba
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      // Render KaTeX si aplica
+      if (window.renderMathInElement) {
+        try {
+          renderMathInElement(document.body, {
+            delimiters: [
+              {left: '$$', right: '$$', display: true},
+              {left: '$', right: '$', display: false},
+              {left: '\\(', right: '\\)', display: false},
+              {left: '\\[', right: '\\]', display: true}
+            ],
+            throwOnError: false
+          });
+        } catch(e) {}
+      }
+    }
+
+    // MODAL VADEMÉCUM
+    function openFormulasModal() {
+      const modal = document.getElementById('modal-formulas');
+      if (modal) {
+        modal.classList.remove('hidden');
+        if (window.renderMathInElement) {
+          try {
+            renderMathInElement(modal, {
+              delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '$', right: '$', display: false},
+                {left: '\\(', right: '\\)', display: false},
+                {left: '\\[', right: '\\]', display: true}
+              ],
+              throwOnError: false
+            });
+          } catch(e) {}
+        }
+      }
+    }
+    function closeFormulasModal() {
+      const modal = document.getElementById('modal-formulas');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    // MODAL GUÍA DE USO
+    function openTutorial() {
+      const modal = document.getElementById('modal-tutorial');
+      if (modal) modal.classList.remove('hidden');
+    }
+    function closeTutorial() {
+      const modal = document.getElementById('modal-tutorial');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    // INTERACTIVO: EXPLORADOR DE LOS 5 MOMENTOS
+    const momentsData = {
+      1: "<strong>Momento 1: Antes de tocar a la persona.</strong> Protege al paciente de microorganismos colonizadores de tus manos. Ej: palpación, higiene en cama, tomar el pulso o estrechar su mano.",
+      2: "<strong>Momento 2: Antes de una tarea limpia o aséptica.</strong> Protege sitios estériles o vulnerables de gérmenes invasores. Ej: colocación de sonda vesical, vía periférica, curación o administración de inyecciones.",
+      3: "<strong>Momento 3: Después del riesgo de exposición a líquidos corporales.</strong> Protege al enfermero y a la sala de fluidos del paciente. Ej: manipular orina, apósitos drenados, sangre o al retirar guantes.",
+      4: "<strong>Momento 4: Después de tocar a la persona.</strong> Protege a los siguientes pacientes y al área común de enfermería. Ej: tras medir la TA, tender la cama o despedirse del paciente.",
+      5: "<strong>Momento 5: Después del contacto con el entorno inmediato.</strong> ¡Aplica incluso sin haber tocado físicamente al paciente! Ej: acomodar la mesa de noche, silenciar bombas o tocar barandillas de la cama."
+    };
+
+    function highlightMoment(num) {
+      const fbBox = document.getElementById('moment-feedback-box');
+      if (fbBox && momentsData[num]) {
+        fbBox.innerHTML = momentsData[num];
+        fbBox.className = "p-3.5 bg-accent-light rounded-xl border border-accent/30 text-slate-800 text-xs sm:text-sm font-medium transition min-h-[46px] flex items-center justify-center text-center";
+      }
+    }
+
+    // TEMPORIZADOR INTERACTIVO DE HIGIENE
+    function startHandwashTimer(type) {
+      stopHandwashTimer();
+
+      const box = document.getElementById('timer-box');
+      const title = document.getElementById('timer-title');
+      const display = document.getElementById('timer-display');
+      const instruction = document.getElementById('timer-step-instruction');
+      const circle = document.getElementById('timer-circle-progress');
+
+      box.classList.remove('hidden');
+
+      if (type === 'alcohol') {
+        appState.totalTime = 25; // Promedio de 20 a 30 s
+        appState.timeLeft = 25;
+        title.textContent = "Fricción con Alcohol en Gel (20 - 30 seg)";
+        instruction.textContent = "Dosis suficiente: frotar palmas, dorsos, espacios interdigitales y pulgares hasta que el producto se evapore por completo.";
+      } else {
+        appState.totalTime = 50; // Promedio de 40 a 60 s
+        appState.timeLeft = 50;
+        title.textContent = "Lavado con Agua y Jabón (40 - 60 seg)";
+        instruction.textContent = "Mojar manos, enjabonar palmas, dorsos, interdigitales, pulpejos y pulgares. Enjuagar y secar cuidadosamente con toalla descartable.";
+      }
+
+      display.textContent = `${appState.timeLeft}s`;
+      circle.style.strokeDashoffset = '0';
+
+      appState.timerRunning = true;
+      appState.timerInterval = setInterval(() => {
+        appState.timeLeft--;
+        display.textContent = `${appState.timeLeft}s`;
+
+        const totalCircumference = 326;
+        const progressOffset = totalCircumference * (1 - (appState.timeLeft / appState.totalTime));
+        circle.style.strokeDashoffset = progressOffset;
+
+        if (appState.timeLeft <= 0) {
+          stopHandwashTimer();
+          display.textContent = "¡Listo!";
+          instruction.innerHTML = "<strong class='text-emerald-400'>¡Tiempo completado con éxito!</strong> Manos seguras para continuar la atención del paciente.";
+        }
+      }, 1000);
+    }
+
+    function stopHandwashTimer() {
+      if (appState.timerInterval) {
+        clearInterval(appState.timerInterval);
+        appState.timerInterval = null;
+      }
+      appState.timerRunning = false;
+    }
+
+    // INICIALIZACIÓN AL CARGAR LA VENTANA
+    window.addEventListener('DOMContentLoaded', () => {
+      switchTab('mod1');
+    });
+  </script>
+</body>
+</html>
